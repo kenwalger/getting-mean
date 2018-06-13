@@ -3,34 +3,45 @@
 // MongoDB Configuration
 /* ====================================== */
 let MongoClient = require('mongodb').MongoClient;
-let co = require('co');
-let assert = require('assert');
-let data = require('./delis');
+// let co = require('co');
+// let assert = require('assert');
+// let data = require('./delis');
 
 const dbName = 'mdbw18';
 const mdbPort = 27017;
 const url = 'mongodb://localhost:' + mdbPort + '/'+ dbName;
 
-co(function*() {
-    let db = yield MongoClient.connect(url, function (err, client) {
-            if (err) throw err;
-            console.log("Successfully connected to MongoDB Database.");
+class Connection {
+    constructor(uri, name) {
+        this.db = null;
+        this.uri = uri;
+        this.name = name;
+    }
 
-            let db = client.db(dbName);
-            db.collection('delis')
-                .insertMany([data.margon,
-                        data.juniors,
-                        data.melt_shop,
-                        data.piccolo,
-                        data.toasties],
-                function (err, r) {
-                assert.equal(null, err);
-                assert.equal(5, r.insertedCount);
-                console.log("Database setup with five delis.");
+    connect() {
+        if(this.db) {
+            return Promise.resolve(this.db);
+        } else {
+            return MongoClient.connect(this.uri)
+                .then(client => {
+                    this.db = client.db(this.name);
+                    return this.db;
                 });
         }
-    ).catch(function (err) {
-        console.log(err.stack);
-        process.exit(1);
-    });
-});
+    }
+}
+
+module.exports = new Connection(url, dbName);
+
+// co(function*() {
+//     let db = yield MongoClient.connect(url, function (err, client) {
+//             if (err) throw err;
+//             console.log("Successfully connected to MongoDB Database.");
+
+//             
+//         }
+//     ).catch(function (err) {
+//         console.log(err.stack);
+//         process.exit(1);
+//     });
+// });
