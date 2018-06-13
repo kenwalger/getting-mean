@@ -25,7 +25,7 @@ router.get('/delis', (request, response, next) => {
 // POST Routes
 router.post('/delis/', (request, response) => {
     delis.insertOne(request.body, (err, result) => {
-        if (err) return console.log(err)
+        if (err) return console.log(err);
         response.send("Here's the data that was saved: " + JSON.stringify(request.body));
     });
 });
