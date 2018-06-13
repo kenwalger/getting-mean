@@ -1,52 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
+const db = require('../data/db').db;
+let delis = db.collection('delis');
+
 /* ====================================== */
-// MongoDB Configuration
+// Route Definitions
 /* ====================================== */
-let MongoClient = require('mongodb').MongoClient;
-let co = require('co');
-let assert = require('assert');
 
-const dbName = 'mdbw18';
-const mdbPort = 27017;
-const url = 'mongodb://localhost:' + mdbPort + '/'+ dbName;
+router.get('/', (request, response, next) => {
+    console.log("You made it to the router. Nice work!");
+    response.send("API index");
+});
 
-co(function*() {
-    let db = yield MongoClient.connect(url, function (err, client) {
-        if (err) throw err;
-        console.log("Successfully connected to MongoDB Database.");
-        let db = client.db(dbName);
-        let delis = db.collection('delis');
+router.get('/delis', (request, response, next) => {
+    console.log("You're on the quest for heros.");
 
-    /* ====================================== */
-    // Route Definitions
-    /* ====================================== */
+    delis.find().toArray(function(err, results) {
+        response.send(results);
+    });
+});
 
-        router.get('/', (request, response, next) => {
-            console.log("You made it to the router. Nice work!");
-            response.send("API index");
-        });
-
-        router.get('/delis', (request, response, next) => {
-            console.log("You're on the quest for heros.");
-
-            delis.find().toArray(function(err, results) {
-                response.send(results);
-            });
-        });
-
-        router.post('/delis/', (request, response) => {
-            delis.insertOne(request.body, (err, result) => {
-                if (err) return console.log(err)
-                response.send("Here's the data that was saved: " + JSON.stringify(request.body));
-            });
-        });
-
-        }
-    ).catch(function (err) {
-        console.log(err.stack);
-        process.exit(1);
+router.post('/delis/', (request, response) => {
+    delis.insertOne(request.body, (err, result) => {
+        if (err) return console.log(err)
+        response.send("Here's the data that was saved: " + JSON.stringify(request.body));
     });
 });
 
