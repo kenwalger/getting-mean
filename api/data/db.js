@@ -3,9 +3,6 @@
 // MongoDB Configuration
 /* ====================================== */
 let MongoClient = require('mongodb').MongoClient;
-// let co = require('co');
-// let assert = require('assert');
-// let data = require('./delis');
 
 const dbName = 'mdbw18';
 const mdbPort = 27017;
@@ -32,16 +29,3 @@ class Connection {
 }
 
 module.exports = new Connection(url, dbName);
-
-// co(function*() {
-//     let db = yield MongoClient.connect(url, function (err, client) {
-//             if (err) throw err;
-//             console.log("Successfully connected to MongoDB Database.");
-
-//             
-//         }
-//     ).catch(function (err) {
-//         console.log(err.stack);
-//         process.exit(1);
-//     });
-// });

@@ -32,8 +32,6 @@ db.connect().then(function(db){
             data.toasties
         ], 
         function (err, r) {
-            // assert.equal(null, err);
-            // assert.equal(5, r.insertedCount);
             console.log("Database setup with five delis.");
 
             const deliRoutes = require('./api/routes/delis');
@@ -51,5 +49,5 @@ db.connect().then(function(db){
                 console.log('Express.js server is listening on Port %s.', port);
             });
         });
-})
+});
 

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const bodyParser = require('body-parser');
 
 // Create Express app
 const app = express();
 
-// middleware
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+// support parsing of application/x-www-form-urlencoded post data with Express native package
+app.use(express.urlencoded({extended: true}));
+// support parsing of application/json type post data with Express native package
+app.use(express.json());
 
 // Database setup
 const dbName = 'mdbw18';
