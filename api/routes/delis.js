@@ -8,6 +8,7 @@ let delis = db.collection('delis');
 // Route Definitions
 /* ====================================== */
 
+// GET Routes
 router.get('/', (request, response, next) => {
     console.log("You made it to the router. Nice work!");
     response.send("API index");
@@ -21,12 +22,17 @@ router.get('/delis', (request, response, next) => {
     });
 });
 
+// POST Routes
 router.post('/delis/', (request, response) => {
     delis.insertOne(request.body, (err, result) => {
         if (err) return console.log(err)
         response.send("Here's the data that was saved: " + JSON.stringify(request.body));
     });
 });
+
+// PUT routes
+
+// DELETE routes
 
 // Export Router for use in app.js
 module.exports = router;
