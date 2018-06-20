@@ -2,11 +2,13 @@
 /* ====================================== */
 // MongoDB Configuration
 /* ====================================== */
+// QUESTION: Why name this variable starting with a capital letter 'M'?
+// QUESTION: Why not use a `const` variable here?
 let MongoClient = require('mongodb').MongoClient;
 
 const dbName = 'mdbw18';
 const mdbPort = 27017;
-const url = 'mongodb://localhost:' + mdbPort + '/'+ dbName;
+const url = `mongodb://localhost:${mdbPort}/${dbName}`;
 
 class Connection {
     constructor(uri, name) {
@@ -16,7 +18,7 @@ class Connection {
     }
 
     connect() {
-        if(this.db) {
+        if (this.db) {
             return Promise.resolve(this.db);
         } else {
             return MongoClient.connect(this.uri)

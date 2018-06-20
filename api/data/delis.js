@@ -1,3 +1,4 @@
+// NITPICK: Why leave the quotes off of the top level property names? Or why did you use quotes on the other property names? Why not use the same approach for both?
 module.exports = {
     margon: {
         "name": "Margon",

@@ -9,8 +9,9 @@ exports.create = (request, response) => {
     }
 
     // Create a new Deli
+    // IDEA: Opportunity for a `getDeliFromRequestBody()` function?
     const deli = new Deli({
-        name: request.body.name || "Mystery Deli",
+        name: request.body.name || 'Mystery Deli',
         rest_id: request.body.rest_id,
         street: request.body.street,
         district: request.body.district,
@@ -25,7 +26,7 @@ exports.create = (request, response) => {
         response.send(data);
     }).catch(err => {
         response.status(500).send({
-            message: err.message || "An error occurred while creating the deli."
+            message: err.message || 'An error occurred while creating the deli.'
         });
     });
 };
@@ -37,7 +38,7 @@ exports.findAll = (request, response) => {
             response.send(delis);
         }).catch(err => {
             response.status(500).send({
-                message: err.message || "Something happened while trying to get all the delis."
+                message: err.message || 'Something happened while trying to get all the delis.'
             });
     });
 };
@@ -48,19 +49,20 @@ exports.findOne = (request, response) => {
     Deli.find({rest_id: request.params.rest_id})
         .then(deli => {
             if(!deli) {
+                // IDEA: This code is repeated in a number of places. Maybe create a `getNotFoundResponse()` or `notFound()` function?
                 return response.status(404).send({
-                    message: "Deli not found with id " + request.params.rest_id
+                    message: `Deli not found with id ${request.params.rest_id}`
                 });
             }
             response.send(deli);
         }).catch(err => {
             if(err.kind === 'rest_id') {
                 return response.send(404).send({
-                    message: "Deli not found with id " + request.params.rest_id
+                    message: `Deli not found with id ${request.params.rest_id}`
                 });
             }
             return response.status(500).send({
-                message: "Sorry, something happened while trying to get the deli with id " + request.params.rest_id
+                message: `Sorry, something happened while trying to get the deli with id ${request.params.rest_id}`
             });
     });
 };
@@ -72,8 +74,10 @@ exports.update = (request, response) => {
             message: "Hmmm, trying to save an empty deli isn't very heroic."
         });
     }
-    Deli.findOneAndUpdate({rest_id: request.params.rest_id}, {
-        name: request.body.name || "Mystery Deli",
+    Deli.findOneAndUpdate({rest_id: request.params.rest_id},
+    // IDEA: Opportunity for a `getDeliFromRequestBody()` function?
+    {
+        name: request.body.name || 'Mystery Deli',
         rest_id: request.body.rest_id,
         street: request.body.street,
         district: request.body.district,
@@ -85,18 +89,18 @@ exports.update = (request, response) => {
         .then(deli => {
             if (!deli) {
                 return response.status(404).send({
-                    message: "Deli not found with id " + request.params.rest_id
+                    message: `Deli not found with id ${request.params.rest_id}`
                 });
             }
             response.send(deli);
         }).catch(err => {
         if (err.kind === 'rest_id') {
             return response.send(404).send({
-                message: "Deli not found with id " + request.params.rest_id
+                message: `Deli not found with id ${request.params.rest_id}`
             });
         }
         return response.status(500).send({
-            message: "Sorry, something happened while trying to get the deli with id " + request.params.rest_id
+            message: `Sorry, something happened while trying to get the deli with id ${request.params.rest_id}`
         });
     });
 };
@@ -107,19 +111,18 @@ exports.delete = (request, response) => {
         .then(deli => {
             if (!deli) {
                 return response.status(404).send({
-                    message: "Deli not found with id " + request.params.rest_id
-
+                    message: `Deli not found with id ${request.params.rest_id}`
                 });
             }
-            response.send({message: "Deli successfully deleted!"});
+            response.send({message: 'Deli successfully deleted!'});
         }).catch(err => {
             if(err.kind === 'rest_id' || err.name === 'NotFound') {
                 return response.status(404).send({
-                    message: "Deli not found with id " + request.params.rest_id
+                    message: `Deli not found with id ${request.params.rest_id}`
                 });
             }
             return response.status(500).sent({
-                message: "Sorry, couldn't delete deli with id " + request.params.rest_id
+                message: `Sorry, couldn't delete deli with id ${request.params.rest_id}`
             });
     });
 };

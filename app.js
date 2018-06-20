@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 const db = require('./api/data/db');
+// QUESTION: I don't see where you're using the `data` variable
 const data = require('./api/data/delis');
 
 db.connect().then(function(db){

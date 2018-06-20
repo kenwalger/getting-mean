@@ -1,4 +1,5 @@
-module.exports = (app) => {
+module.exports = app => {
+	// QUESTION: Why call `require()` here instead of at the top of the module?
 	const delis = require('../controllers/controller.js');
 
 	// New Deli

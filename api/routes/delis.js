@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const db = require('../data/db').db;
+// QUESTION: Why not use `const` here?
 let delis = db.collection('delis');
 
 /* ====================================== */
@@ -10,14 +11,14 @@ let delis = db.collection('delis');
 
 // GET Routes
 router.get('/', (request, response, next) => {
-    console.log("You made it to the router. Nice work!");
-    response.send("API index");
+    console.log('You made it to the router. Nice work!');
+    response.send('API index');
 });
 
 router.get('/delis', (request, response, next) => {
     console.log("You're on the quest for heros.");
 
-    delis.find().toArray(function(err, results) {
+    delis.find().toArray((err, results) => {
         response.send(results);
     });
 });
