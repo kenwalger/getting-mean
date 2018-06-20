@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const db = require('../data/db').db;
-// QUESTION: Why not use `const` here?
+
 let delis = db.collection('delis');
 
 /* ====================================== */
